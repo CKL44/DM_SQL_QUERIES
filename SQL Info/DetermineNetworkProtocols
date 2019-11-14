@@ -1,0 +1,9 @@
+
+Determine Network Protocols – raw version
+The network configuration is stored on 
+HKLM\Software\Microsoft\Microsoft SQL Server\<yourinstance>\MSSQLServer\SuperSocketNetLib\ registry key, 
+so if you want to obtain all the raw data with your network protocols you can just run this query:
+
+SELECT registry_key, value_name, value_data 
+FROM sys.dm_server_registry
+WHERE registry_key LIKE '%SuperSocketNetLib%'
