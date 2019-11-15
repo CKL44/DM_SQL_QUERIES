@@ -1,0 +1,25 @@
+EXECUTE AS login = 'DOCSADM'
+ 
+SELECT *
+FROM   (SELECT 'OBJECT' AS entity_class,
+               NAME,
+               subentity_name,
+               permission_name
+        FROM   sys.objects
+               CROSS APPLY fn_my_permissions(QUOTENAME(NAME), 'OBJECT') a
+        UNION ALL
+        SELECT 'DATABASE' AS entity_class,
+               NAME,
+               subentity_name,
+               permission_name
+        FROM   sys.databases
+               CROSS APPLY fn_my_permissions(QUOTENAME(NAME), 'DATABASE') a
+        UNION ALL
+        SELECT 'SERVER'     AS entity_class,
+               @@SERVERNAME AS NAME,
+               subentity_name,
+               permission_name
+        FROM   fn_my_permissions(NULL, 'SERVER')) p
+ORDER  BY entity_class,
+          NAME 
+ 
