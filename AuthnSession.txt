@@ -1,0 +1,12 @@
+SELECT
+    a.session_id,
+    b.connect_time,
+    a.login_time,
+    a.login_name,
+    b.protocol_type,
+    b.auth_scheme,
+    a.HOST_NAME,
+    a.program_name
+FROM sys.dm_exec_sessions a
+JOIN sys.dm_exec_connections b
+ON a.session_id = b.session_id
